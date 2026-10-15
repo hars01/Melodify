@@ -747,3 +747,34 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ---
 
 *Documentation maintained for the Melodify project. Keep examples, package versions, environment variables, routes, and license details synchronized with the actual repository.*
+
+---
+
+## 13. Frontend Integration Reference
+
+*(Added for Next.js Frontend Integration)*
+
+### How the Frontend Connects
+The Next.js 16 frontend connects to this backend server at `http://localhost:3000` via Next.js reverse-proxy rewrites configured in `Frontend/next.config.js`. All frontend API calls matching `/api/*` are transparently forwarded to Express.
+
+### Endpoints Integrated
+- `POST /api/auth/register` — User and artist registration with JWT cookie issuance.
+- `POST /api/auth/login` — Authentication with username or email, setting the `Token` cookie.
+- `POST /api/auth/logout` — Session termination and clearing the `Token` cookie.
+- `GET /api/music` — Retrieval of uploaded tracks with populated artist metadata.
+- `POST /api/music/upload` — Audio upload via Multer memory storage and ImageKit CDN (requires `artist` or `admin` role).
+- `GET /api/music/albums` — Album list retrieval.
+- `GET /api/music/albums/:albumId` — Album detail query with tracks and artist.
+- `POST /api/music/album` — Album grouping creation (requires `artist` or `admin` role).
+
+### Authentication & Cookies
+Authentication relies on the HTTP cookie named `Token`. Express parses it via `cookie-parser` in `auth.middleware.js`. The frontend passes this cookie automatically with `credentials: 'include'`.
+
+### Verified Fix
+In `src/controllers/music.controller.js` (lines 120, 147, 166), `.pupulate("artist")` was corrected to `.populate("artist")` with user approval to resolve Mongoose query crashes.
+
+### Verified Architecture Limitations
+- Playlists are managed client-side in the frontend as no playlist model/controller exists in the backend.
+- Search queries are executed client-side over retrieved music and albums.
+- User profile updates are not currently supported by backend endpoints.
+
