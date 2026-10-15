@@ -117,7 +117,7 @@ async function getAllMusics(req, res){
 
     // yaha pe hum limits ka use eshliye kar rahe hai kyuki jab hum server se all musics ka request kare aur data millions/bahutJada ho toh hum sare data ko na load kara ke kuchh limited hi data load karate hai eshashe server me storage ki problem nahi hoti kyuki jab millions musics ke data ko load karte toh storage bahrne ya server crash/slow hone ka chance hota hai
     // skip ka matalab kitane data ko skip karne ke bad hu data ko load kare server me par dhyan rahe limit ko cross nahi kar sakte like 20 yaha limit hai toh 20 ya 20 se kam music data load honge agar jada hu toh load nahi hoga 
-    const musics = await musicModel.find().skip(0).limit(20).pupulate("artist")
+    const musics = await musicModel.find().skip(0).limit(20).populate("artist")
       
 
       res.status(200).json({
@@ -144,7 +144,7 @@ async function getAllAlbums(req, res){
 
 
     // yaha pe .select() method eshliye lagaye hai kyuki hum jab home screen me honge toh sara musics ek sath load na ho, eshliye hum kewal album ka "title" aur "artist" ko dikhayenge...
-      const albums = await albumModel.find().select("title artist").pupulate("artist")
+      const albums = await albumModel.find().select("title artist").populate("artist")
 
       
 
@@ -163,7 +163,7 @@ async function getAllMusicsOfAlbumByAlbumId(req, res){
     const albumId = req.params.albumId;
 
 
-    const album = await albumModel.findById(albumId).pupulate("artist")
+    const album = await albumModel.findById(albumId).populate("artist")
 
       
 
