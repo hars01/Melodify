@@ -10,6 +10,7 @@ import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { MobileNav } from '@/components/layout/MobileNav';
 
 export const metadata: Metadata = {
+  icons: { icon: "/logo.png", },
   title: 'Melodify — Modern Music Streaming & Creator Studio',
   description:
     'Experience high-fidelity music streaming, discover fresh albums and artists, and upload your soundscapes with Melodify.',
